@@ -2,10 +2,7 @@
 // Created by Emilien Lemaire on 16/03/2020.
 //
 
-#include <sstream>
-#include <iostream>
 #include "CppLogger.h"
-#include "Color.h"
 
 namespace CppLogger {
     CppLogger::CppLogger(Level t_Level, const char* t_Name)
@@ -27,7 +24,7 @@ namespace CppLogger {
         m_Format[t_Level - 1] = t_Format;
     }
 
-    std::stringstream CppLogger::printFormat(Level t_Level, const char* t_Message) {
+    std::stringstream CppLogger::printFormat(Level t_Level, std::string t_Message) {
         std::vector<FormatAttribute > format = m_Format[t_Level - 1].getFormat();
         std::stringstream sstr;
         for (const auto &attribute : format) {
@@ -108,7 +105,7 @@ namespace CppLogger {
     void CppLogger::printFatalError(const char *t_Message) {
         std::stringstream formatted = printFormat(Level::FatalError, t_Message);
         (m_Level != Level::None && m_Level <= Level::FatalError)
-            ? std::cout <<Color::green << formatted.str() << Color::reset << std::endl
+            ? std::cout <<Color::red << formatted.str() << Color::reset << std::endl
             : std::cout << "";
     }
 }

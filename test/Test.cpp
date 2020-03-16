@@ -24,7 +24,7 @@ int main() {
     mainLogger.printError("Main");
     mainLogger.printFatalError("Main");
 
-    CppLogger::CppLogger errorLogger(CppLogger::Level::Error, "Error logger");
+    CppLogger::CppLogger errorLogger(CppLogger::Level::Trace, "Error logger");
 
     errorLogger.setFormat(mainFormat);
 
@@ -33,5 +33,12 @@ int main() {
     errorLogger.printWarn("Error");
     errorLogger.printError("Error");
     errorLogger.printFatalError("Error");
+
+    int a = 5;
+    char b = 'b';
+    double d = 5.2;
+    float f = 5.4f;
+
+    errorLogger.printTrace("{}", a);
 
 }

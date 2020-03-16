@@ -7,7 +7,10 @@
 
 #include <string>
 #include <array>
+#include <sstream>
+#include <iostream>
 #include "Format.h"
+#include "Color.h"
 
 namespace CppLogger {
     enum Level {
@@ -19,14 +22,14 @@ namespace CppLogger {
         Level m_Level;
         std::string m_Name;
         std::array<Format, 5> m_Format{{
-            {FormatAttribute::Time, FormatAttribute::Name, FormatAttribute::Message}
-        }};
+                                               {FormatAttribute::Time, FormatAttribute::Name, FormatAttribute::Message}
+                                       }};
     public:
         CppLogger(Level t_Level, const char* t_Name);
 
         void setFormat(Format& t_Format);
         void setFormat(Level t_Level, Format& t_Format);
-        std::stringstream printFormat(Level t_Level, const char* t_Message);
+        std::stringstream printFormat(Level t_Level, std::string t_Message);
 
         void printTrace(const char* t_Message);
         void printInfo(const char* t_Message);
@@ -34,6 +37,81 @@ namespace CppLogger {
         void printError(const char* t_Message);
         void printFatalError(const char* t_Message);
         ~CppLogger() = default;
+
+        template<typename T, typename... Types>
+        std::string formatString(std::string &fmt, T var1, Types... var){
+            std::size_t argNum = sizeof...(Types);
+            std::size_t found = fmt.find("{}");
+            std::stringstream sstr;
+            sstr << var1;
+            if (found != std::string::npos) fmt.replace(found, 2, sstr.str());
+            if (found == std::string::npos) return fmt;
+            else return formatString(fmt, var...);
+        }
+
+        template<typename T>
+        std::string formatString(std::string& fmt, T var) {
+            std::size_t found = fmt.find("{}");
+            std::stringstream sstr;
+            sstr << var;
+            if (found != std::string::npos) fmt.replace(found, 2, sstr.str());
+            return fmt;
+        }
+
+        template<typename T, typename ... Types>
+        void printTrace(std::string t_fmt, T var1, Types... var) {
+
+            std::string message = formatString(t_fmt, var1, var...);
+
+            std::stringstream formatted = printFormat(Level::Trace, message);
+            (m_Level != Level::None && m_Level <= Level::Trace)
+                ? std::cout << formatted.str() << std::endl
+                : std::cout << "";
+        }
+
+        template<typename T, typename ... Types>
+        void printInfo(std::string t_fmt, T var1, Types... var) {
+
+            std::string message = formatString(t_fmt, var1, var...);
+
+            std::stringstream formatted = printFormat(Level::Info, message);
+            (m_Level != Level::None && m_Level <= Level::Info)
+                ? std::cout << Color::green << formatted.str() << Color::reset << std::endl
+                : std::cout << "";
+        }
+
+        template<typename T, typename ... Types>
+        void printWarn(std::string t_fmt, T var1, Types... var) {
+
+            std::string message = formatString(t_fmt, var1, var...);
+
+            std::stringstream formatted = printFormat(Level::Warn, message);
+            (m_Level != Level::None && m_Level <= Level::Warn)
+                ? std::cout << Color::yellow << formatted.str() << Color::reset << std::endl
+                : std::cout << "";
+        }
+
+        template<typename T, typename ... Types>
+        void printError(std::string t_fmt, T var1, Types... var) {
+
+            std::string message = formatString(t_fmt, var1, var...);
+
+            std::stringstream formatted = printFormat(Level::Error, message);
+            (m_Level != Level::None && m_Level <= Level::Error)
+                ? std::cout << Color::red << formatted.str() << Color::reset << std::endl
+                : std::cout << "";
+        }
+
+        template<typename T, typename ... Types>
+        void printFatalError(std::string t_fmt, T var1, Types... var) {
+
+            std::string message = formatString(t_fmt, var1, var...);
+
+            std::stringstream formatted = printFormat(Level::FatalError, message);
+            (m_Level != Level::None && m_Level <= Level::FatalError)
+                ? std::cout << Color::red << formatted.str() << Color::reset << std::endl
+                : std::cout << "";
+        }
     };
 }
 
