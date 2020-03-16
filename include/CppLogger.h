@@ -22,8 +22,10 @@ namespace CppLogger {
         Level m_Level;
         std::string m_Name;
         std::array<Format, 5> m_Format{{
-                                               {FormatAttribute::Time, FormatAttribute::Name, FormatAttribute::Message}
-                                       }};
+            {FormatAttribute::Time,
+             FormatAttribute::Name,
+             FormatAttribute::Message}
+        }};
     public:
         CppLogger(Level t_Level, const char* t_Name);
 
@@ -31,11 +33,11 @@ namespace CppLogger {
         void setFormat(Level t_Level, Format& t_Format);
         std::stringstream printFormat(Level t_Level, std::string t_Message);
 
-        void printTrace(const char* t_Message);
-        void printInfo(const char* t_Message);
-        void printWarn(const char* t_Message);
-        void printError(const char* t_Message);
-        void printFatalError(const char* t_Message);
+        void printTrace(std::string t_Message);
+        void printInfo(std::string t_Message);
+        void printWarn(std::string t_Message);
+        void printError(std::string t_Message);
+        void printFatalError(std::string t_Message);
         ~CppLogger() = default;
 
         template<typename T, typename... Types>

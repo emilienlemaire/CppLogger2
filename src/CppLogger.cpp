@@ -75,34 +75,34 @@ namespace CppLogger {
         return sstr;
     }
 
-    void CppLogger::printTrace(const char* t_Message) {
+    void CppLogger::printTrace(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Trace, t_Message);
         (m_Level != Level::None && m_Level <= Level::Trace)
             ? std::cout << formatted.str() << std::endl : std::cout << "";
     }
 
-    void CppLogger::printInfo(const char *t_Message) {
+    void CppLogger::printInfo(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Info, t_Message);
         (m_Level != Level::None && m_Level <= Level::Info)
             ? std::cout << Color::green << formatted.str() << Color::reset << std::endl
             : std::cout << "";
     }
 
-    void CppLogger::printWarn(const char *t_Message) {
+    void CppLogger::printWarn(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Warn, t_Message);
         (m_Level != Level::None && m_Level <= Level::Warn)
             ? std::cout << Color::yellow << formatted.str() << Color::reset << std::endl
             : std::cout << "";
     }
 
-    void CppLogger::printError(const char *t_Message) {
+    void CppLogger::printError(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Error, t_Message);
         (m_Level != Level::None && m_Level <= Level::Error)
             ? std::cout << Color::red << formatted.str() << Color::reset << std::endl
             : std::cout << "";
     }
 
-    void CppLogger::printFatalError(const char *t_Message) {
+    void CppLogger::printFatalError(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::FatalError, t_Message);
         (m_Level != Level::None && m_Level <= Level::FatalError)
             ? std::cout <<Color::red << formatted.str() << Color::reset << std::endl
