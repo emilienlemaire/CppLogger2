@@ -5,19 +5,25 @@
 #include <CppLogger.h>
 
 int main() {
-    CppLogger::CppLogger mainLogger(CppLogger::Level::Trace, "Main");
+    // Creating a logger (the last parameter is false by default and 
+    //  if is set to true it will exit after a printFatalError())
+    CppLogger::CppLogger mainLogger(CppLogger::Level::Trace, "Main"/*, true*/);
 
+    // Trace level log
     mainLogger.printTrace("Test");
 
+    // Create a format for your logger (the order of the format is respected)
     CppLogger::Format mainFormat({
-        CppLogger::FormatAttribute::Time,
-        CppLogger::FormatAttribute::Name,
-        CppLogger::FormatAttribute::Level,
-        CppLogger::FormatAttribute::Message
-    });
+            CppLogger::FormatAttribute::Time,
+            CppLogger::FormatAttribute::Name,
+            CppLogger::FormatAttribute::Level,
+            CppLogger::FormatAttribute::Message
+            });
 
+    // Apply the format to your logger
     mainLogger.setFormat(mainFormat);
 
+    // Different levels of logging
     mainLogger.printTrace("Main");
     mainLogger.printInfo("Main");
     mainLogger.printWarn("Main");
@@ -36,9 +42,9 @@ int main() {
 
     int a = 5;
     char b = 'b';
-    double d = 5.2;
+    std::string str = "I shall be logged";
     float f = 5.4f;
 
-    errorLogger.printTrace("{}", a);
-
+    errorLogger.printTrace("Printing a:{}, and b: {}, but not f;", a, b, f);
+    errorLogger.printWarn("{}", str);
 }
