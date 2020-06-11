@@ -26,8 +26,9 @@ namespace CppLogger {
              FormatAttribute::Name,
              FormatAttribute::Message}
         }};
+        bool m_ExitOnFatal;
     public:
-        CppLogger(Level t_Level, const char* t_Name);
+        CppLogger(Level t_Level, const char* t_Name, bool exitOnFatal = false);
 
         void setFormat(Format& t_Format);
         void setFormat(Level t_Level, Format& t_Format);

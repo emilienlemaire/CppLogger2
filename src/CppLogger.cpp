@@ -3,10 +3,11 @@
 //
 
 #include "CppLogger.h"
+#include <cstdlib>
 
 namespace CppLogger {
-    CppLogger::CppLogger(Level t_Level, const char* t_Name)
-        :m_Level(t_Level), m_Name(t_Name) {}
+    CppLogger::CppLogger(Level t_Level, const char* t_Name, bool exitOnFatal)
+        :m_Level(t_Level), m_Name(t_Name), m_ExitOnFatal(exitOnFatal) {}
 
     void CppLogger::setFormat(Format& t_Format) {
         if (std::find(t_Format.getFormat().begin(), t_Format.getFormat().end(), FormatAttribute::Message) == t_Format.getFormat().end()) {
@@ -107,5 +108,9 @@ namespace CppLogger {
         (m_Level != Level::None && m_Level <= Level::FatalError)
             ? std::cout <<Color::red << formatted.str() << Color::reset << std::endl
             : std::cout << "";
+
+        if (m_ExitOnFatal) {
+            exit(EXIT_FAILURE);
+        }
     }
 }
