@@ -1,2 +1,6 @@
 include_directories(../include)
-add_library(CppLogger CppLogger.cpp ../include/CppLogger.h Format.cpp ../include/Format.h ../include/Color.h Color.cpp)
+add_library(
+    cpplogger SHARED
+    CppLogger.cpp
+    Format.cpp
+    Color.cpp)

@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include <string>
 
 namespace CppLogger {
     struct Color {
