@@ -3,6 +3,7 @@
 //
 
 #include <CppLogger.h>
+#include <iostream>
 
 int main() {
     // Creating a logger (the last parameter is false by default and 
@@ -33,6 +34,8 @@ int main() {
     CppLogger::CppLogger errorLogger(CppLogger::Level::Trace, "Error logger");
 
     errorLogger.setFormat(mainFormat);
+
+    errorLogger.setOStream(std::cerr);
 
     errorLogger.printTrace("Error");
     errorLogger.printInfo("Error");

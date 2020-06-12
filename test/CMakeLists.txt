@@ -1,5 +1,3 @@
-include_directories(../include)
-
 add_executable(Test Test.cpp)
 
 target_link_libraries(Test cpplogger)

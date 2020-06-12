@@ -4,6 +4,7 @@
 
 #include "CppLogger.h"
 #include <cstdlib>
+#include <ostream>
 
 namespace CppLogger {
     CppLogger::CppLogger(Level t_Level, const char* t_Name, bool exitOnFatal)
@@ -18,11 +19,53 @@ namespace CppLogger {
         }
     }
 
+    void CppLogger::setFormat(std::initializer_list<FormatAttribute> t_Format) {
+        if (std::find(t_Format.begin(), t_Format.end(), FormatAttribute::Message) == t_Format.end()) {
+            for(auto &format : m_Format) {
+                format = t_Format;
+                format.addMessage();
+            }
+        } else {
+            for (auto &format: m_Format)
+                format = t_Format;
+        }
+    }
+
     void CppLogger::setFormat(Level t_Level, Format& t_Format) {
         if (std::find(t_Format.getFormat().begin(), t_Format.getFormat().end(), FormatAttribute::Message) == t_Format.getFormat().end()) {
             t_Format.addMessage();
         }
         m_Format[t_Level - 1] = t_Format;
+    }
+
+    void CppLogger::setOStream(std::ostream& t_OStream) {
+        m_TraceStream = &t_OStream;
+        m_InfoStream = &t_OStream;
+        m_WarnStream = &t_OStream;
+        m_ErrorStream = &t_OStream;
+        m_FatalErrorStream = &t_OStream;
+    }
+
+    void CppLogger::setOStream(Level t_Level, std::ostream& t_OStream) {
+        switch (t_Level) {
+            case None:
+                break;
+            case Trace:
+                m_TraceStream = &t_OStream;
+                break;
+            case Info:
+                m_InfoStream = &t_OStream;
+                break;
+            case Warn:
+                m_WarnStream = &t_OStream;
+                break;
+            case Error:
+                m_ErrorStream = &t_OStream;
+                break;
+            case FatalError:
+                m_FatalErrorStream = &t_OStream;
+                break;
+        }
     }
 
     std::stringstream CppLogger::printFormat(Level t_Level, std::string t_Message) {

@@ -4,3 +4,4 @@ cmake-build-debug
 build
 
 screenshot/._CppLoggerTest.png
+compile_commands.json

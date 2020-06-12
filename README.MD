@@ -7,7 +7,7 @@ The second version of the CppLogger library.
 All the example below are shown in the next screenshot.
 
 ``` cpp
-// Creating a logger (the last parameter is false by default and 
+// Creating a logger (the last parameter is false by default and
 //  if is set to true it will exit after a printFatalError())
 CppLogger::CppLogger mainLogger(CppLogger::Level::Trace, "Main"/*, true*/);
 
@@ -35,6 +35,9 @@ mainLogger.printFatalError("Main");
 CppLogger::CppLogger errorLogger(CppLogger::Level::Trace, "Error logger");
 
 errorLogger.setFormat(mainFormat);
+
+// Ouput to std::cerr
+errorLogger.setOStream(std::cerr);
 
 errorLogger.printTrace("Error");
 errorLogger.printInfo("Error");
