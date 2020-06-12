@@ -67,9 +67,8 @@ namespace CppLogger {
             std::string message = formatString(t_fmt, var1, var...);
 
             std::stringstream formatted = printFormat(Level::Trace, message);
-            (m_Level != Level::None && m_Level <= Level::Trace)
-                ? std::cout << formatted.str() << std::endl
-                : std::cout << "";
+            if (m_Level != Level::None && m_Level <= Level::Trace)
+                std::cout << formatted.str() << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -78,9 +77,8 @@ namespace CppLogger {
             std::string message = formatString(t_fmt, var1, var...);
 
             std::stringstream formatted = printFormat(Level::Info, message);
-            (m_Level != Level::None && m_Level <= Level::Info)
-                ? std::cout << Color::green << formatted.str() << Color::reset << std::endl
-                : std::cout << "";
+            if (m_Level != Level::None && m_Level <= Level::Info)
+                std::cout << Color::green << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -89,9 +87,8 @@ namespace CppLogger {
             std::string message = formatString(t_fmt, var1, var...);
 
             std::stringstream formatted = printFormat(Level::Warn, message);
-            (m_Level != Level::None && m_Level <= Level::Warn)
-                ? std::cout << Color::yellow << formatted.str() << Color::reset << std::endl
-                : std::cout << "";
+            if (m_Level != Level::None && m_Level <= Level::Warn)
+                std::cout << Color::yellow << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -100,9 +97,8 @@ namespace CppLogger {
             std::string message = formatString(t_fmt, var1, var...);
 
             std::stringstream formatted = printFormat(Level::Error, message);
-            (m_Level != Level::None && m_Level <= Level::Error)
-                ? std::cout << Color::red << formatted.str() << Color::reset << std::endl
-                : std::cout << "";
+            if (m_Level != Level::None && m_Level <= Level::Error)
+                std::cout << Color::red << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -111,9 +107,8 @@ namespace CppLogger {
             std::string message = formatString(t_fmt, var1, var...);
 
             std::stringstream formatted = printFormat(Level::FatalError, message);
-            (m_Level != Level::None && m_Level <= Level::FatalError)
-                ? std::cout << Color::red << formatted.str() << Color::reset << std::endl
-                : std::cout << "";
+            if (m_Level != Level::None && m_Level <= Level::FatalError)
+                std::cout << Color::red << formatted.str() << Color::reset << std::endl;
         }
     };
 }
