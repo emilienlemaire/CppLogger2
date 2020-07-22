@@ -5,6 +5,7 @@
 #include "CppLogger.h"
 #include <cstdlib>
 #include <ostream>
+#include <string>
 
 namespace CppLogger {
     CppLogger::CppLogger(Level t_Level, const char* t_Name, bool exitOnFatal)
@@ -119,41 +120,58 @@ namespace CppLogger {
         return sstr;
     }
 
+    void CppLogger::setColor(Level t_Level, std::string t_Color){
+        switch (t_Level) {
+            case Level::None:
+                break;
+            case Level::Trace:
+                m_TraceColor = t_Color;
+                break;
+            case Level::Info:
+                m_InfoColor = t_Color;
+                break;
+            case Level::Warn:
+                m_WarnColor = t_Color;
+                break;
+            case Level::Error:
+                m_ErrorColor = t_Color;
+                break;
+            case Level::FatalError:
+                m_FatalErrorColor = t_Color;
+                break;
+        }
+    }
+
     void CppLogger::printTrace(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Trace, t_Message);
-        (m_Level != Level::None && m_Level <= Level::Trace)
-            ? std::cout << formatted.str() << std::endl : std::cout << "";
+        if (m_Level != Level::None && m_Level <= Level::Trace)
+            *m_TraceStream << m_TraceColor << formatted.str() << Color::reset << std::endl;
     }
 
     void CppLogger::printInfo(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Info, t_Message);
-        (m_Level != Level::None && m_Level <= Level::Info)
-            ? std::cout << Color::green << formatted.str() << Color::reset << std::endl
-            : std::cout << "";
+        if (m_Level != Level::None && m_Level <= Level::Info)
+            *m_InfoStream << m_InfoColor << formatted.str() << Color::reset << std::endl;
     }
 
     void CppLogger::printWarn(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Warn, t_Message);
-        (m_Level != Level::None && m_Level <= Level::Warn)
-            ? std::cout << Color::yellow << formatted.str() << Color::reset << std::endl
-            : std::cout << "";
+        if (m_Level != Level::None && m_Level <= Level::Warn)
+            *m_WarnStream << m_WarnColor << formatted.str() << Color::reset << std::endl;
     }
 
     void CppLogger::printError(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::Error, t_Message);
-        (m_Level != Level::None && m_Level <= Level::Error)
-            ? std::cout << Color::red << formatted.str() << Color::reset << std::endl
-            : std::cout << "";
+        if (m_Level != Level::None && m_Level <= Level::Error)
+            *m_ErrorStream << m_ErrorColor << formatted.str() << Color::reset << std::endl;
     }
 
     void CppLogger::printFatalError(std::string t_Message) {
         std::stringstream formatted = printFormat(Level::FatalError, t_Message);
-        (m_Level != Level::None && m_Level <= Level::FatalError)
-            ? std::cout <<Color::red << formatted.str() << Color::reset << std::endl
-            : std::cout << "";
+        if (m_Level != Level::None && m_Level <= Level::FatalError)
+            *m_FatalErrorStream << m_FatalErrorColor << formatted.str() << Color::reset << std::endl;
 
-        if (m_ExitOnFatal) {
+        if (m_ExitOnFatal)
             exit(EXIT_FAILURE);
-        }
     }
 }

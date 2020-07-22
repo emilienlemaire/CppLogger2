@@ -35,6 +35,13 @@ namespace CppLogger {
         std::ostream *m_WarnStream = &std::cout;
         std::ostream *m_ErrorStream = &std::cout;
         std::ostream *m_FatalErrorStream = &std::cout;
+    
+        std::string m_TraceColor = Color::white;
+        std::string m_InfoColor = Color::green;
+        std::string m_WarnColor = Color::yellow;
+        std::string m_ErrorColor = Color::red;
+        std::string m_FatalErrorColor = Color::red;
+
 
     public:
         CppLogger(Level t_Level, const char* t_Name, bool exitOnFatal = false);
@@ -45,6 +52,8 @@ namespace CppLogger {
         void setFormat(Level t_Level, Format& t_Format);
         void setOStream(Level t_Level, std::ostream& t_OStream);
         std::stringstream printFormat(Level t_Level, std::string t_Message);
+
+        void setColor(Level t_Level, std::string t_Color);
 
         void printTrace(std::string t_Message);
         void printInfo(std::string t_Message);
@@ -80,7 +89,7 @@ namespace CppLogger {
 
             std::stringstream formatted = printFormat(Level::Trace, message);
             if (m_Level != Level::None && m_Level <= Level::Trace)
-                *m_TraceStream << formatted.str() << std::endl;
+                *m_TraceStream << m_TraceColor << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -90,7 +99,7 @@ namespace CppLogger {
 
             std::stringstream formatted = printFormat(Level::Info, message);
             if (m_Level != Level::None && m_Level <= Level::Info)
-                *m_InfoStream << Color::green << formatted.str() << Color::reset << std::endl;
+                *m_InfoStream << m_InfoColor << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -100,7 +109,7 @@ namespace CppLogger {
 
             std::stringstream formatted = printFormat(Level::Warn, message);
             if (m_Level != Level::None && m_Level <= Level::Warn)
-                *m_WarnStream << Color::yellow << formatted.str() << Color::reset << std::endl;
+                *m_WarnStream << m_WarnColor << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -110,7 +119,7 @@ namespace CppLogger {
 
             std::stringstream formatted = printFormat(Level::Error, message);
             if (m_Level != Level::None && m_Level <= Level::Error)
-                *m_ErrorStream << Color::red << formatted.str() << Color::reset << std::endl;
+                *m_ErrorStream << m_ErrorColor << formatted.str() << Color::reset << std::endl;
         }
 
         template<typename T, typename ... Types>
@@ -120,7 +129,10 @@ namespace CppLogger {
 
             std::stringstream formatted = printFormat(Level::FatalError, message);
             if (m_Level != Level::None && m_Level <= Level::FatalError)
-                *m_FatalErrorStream << Color::red << formatted.str() << Color::reset << std::endl;
+                *m_FatalErrorStream << m_FatalErrorColor << formatted.str() << Color::reset << std::endl;
+
+            if (m_ExitOnFatal)
+                exit(EXIT_FAILURE);
         }
     };
 }
