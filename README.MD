@@ -4,6 +4,8 @@ The second version of the CppLogger library.
 
 # Usage
 
+**A wiki is in construction, please wait for better usage examples, and last features tutorials**
+
 All the example below are shown in the next screenshot.
 
 ``` cpp
