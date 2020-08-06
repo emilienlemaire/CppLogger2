@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <ostream>
 #include <string>
+#include <chrono>
+#include <ctime>
 
 namespace CppLogger {
     CppLogger::CppLogger(Level t_Level, const char* t_Name, bool exitOnFatal)
