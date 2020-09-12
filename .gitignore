@@ -2,7 +2,7 @@ cmake-build-debug
 .idea
 .clangd
 build
-
 screenshot/._CppLoggerTest.png
 compile_commands.json
 Debug
+release
