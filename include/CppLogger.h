@@ -84,9 +84,8 @@ namespace CppLogger {
                 sstr << value;
                 sstr << ", ";
             }
-
             std::string str = sstr.str();
-            str.erase(str.end() - 3);
+            str.erase(str.end() - 2, str.end());
             str += "]";
             if (found != std::string::npos) fmt.replace(found, 2, str);
             if (found == std::string::npos) return fmt;
@@ -110,9 +109,8 @@ namespace CppLogger {
             for(auto value : var) {
                 sstr << value << ", ";
             }
-
             std::string str = sstr.str();
-            str.erase(str.end() - 3);
+            str.erase(str.end() - 2, str.end());
             str += "]";
 
             if (found != std::string::npos) fmt.replace(found, 2, str);
