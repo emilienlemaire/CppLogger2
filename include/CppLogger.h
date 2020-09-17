@@ -11,6 +11,7 @@
 #include <array>
 #include <sstream>
 #include <iostream>
+#include <vector>
 #include "Format.h"
 #include "Color.h"
 
@@ -73,12 +74,48 @@ namespace CppLogger {
             else return formatString(fmt, var...);
         }
 
+        template<typename T, typename... Types>
+        std::string formatString(std::string &fmt, std::vector<T> var1, Types... var){
+            std::size_t argNum = sizeof...(Types);
+            std::size_t found = fmt.find("{}");
+            std::stringstream sstr;
+            sstr << "[";
+            for (auto value : var1) {
+                sstr << value;
+                sstr << ", ";
+            }
+
+            std::string str = sstr.str();
+            str.erase(str.end() - 3);
+            str += "]";
+            if (found != std::string::npos) fmt.replace(found, 2, str);
+            if (found == std::string::npos) return fmt;
+            else return formatString(fmt, var...);
+        }
+
         template<typename T>
         std::string formatString(std::string& fmt, T var) {
             std::size_t found = fmt.find("{}");
             std::stringstream sstr;
             sstr << var;
             if (found != std::string::npos) fmt.replace(found, 2, sstr.str());
+            return fmt;
+        }
+
+        template<typename T>
+        std::string formatString(std::string& fmt, std::vector<T> var) {
+            std::size_t found = fmt.find("{}");
+            std::stringstream sstr;
+            sstr << "[";
+            for(auto value : var) {
+                sstr << value << ", ";
+            }
+
+            std::string str = sstr.str();
+            str.erase(str.end() - 3);
+            str += "]";
+
+            if (found != std::string::npos) fmt.replace(found, 2, str);
             return fmt;
         }
 
