@@ -65,7 +65,6 @@ namespace CppLogger {
 
         template<typename T, typename... Types>
         std::string formatString(std::string &fmt, T var1, Types... var){
-            std::size_t argNum = sizeof...(Types);
             std::size_t found = fmt.find("{}");
             std::stringstream sstr;
             sstr << var1;
@@ -76,7 +75,6 @@ namespace CppLogger {
 
         template<typename T, typename... Types>
         std::string formatString(std::string &fmt, std::vector<T> var1, Types... var){
-            std::size_t argNum = sizeof...(Types);
             std::size_t found = fmt.find("{}");
             std::stringstream sstr;
             sstr << "[";
